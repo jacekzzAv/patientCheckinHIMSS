@@ -27,11 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.avalue.checkin.R
 import com.avalue.checkin.components.BackButton
 import com.avalue.checkin.components.SignatureCanvas
+import com.avalue.checkin.components.rememberSignatureState
 import com.avalue.checkin.components.SuccessButton
 
 @Composable
@@ -39,8 +42,9 @@ fun ConsentScreen(
     onAgree: (Bitmap) -> Unit,
     onBack: () -> Unit
 ) {
-    var hasSignature by remember { mutableStateOf(false) }
-    var signatureKey by remember { mutableStateOf(0) }
+    val signatureState = rememberSignatureState()
+    val hasSignature = signatureState.hasSignature
+    var signatureSize by remember { mutableStateOf(IntSize.Zero) }
     
     Column(
         modifier = Modifier
@@ -120,21 +124,18 @@ fun ConsentScreen(
                     SignatureCanvas(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(200.dp),
+                            .height(200.dp)
+                            .onSizeChanged { signatureSize = it },
                         strokeColor = Color.Black,
                         strokeWidth = 4.dp,
                         backgroundColor = Color.White,
-                        onSignatureChanged = { signed ->
-                            hasSignature = signed
-                        },
-                        key = signatureKey
+                        signatureState = signatureState
                     )
                     
                     // Clear button overlay
                     TextButton(
                         onClick = {
-                            signatureKey++
-                            hasSignature = false
+                            signatureState.clear()
                         },
                         modifier = Modifier
                             .align(Alignment.TopEnd)
@@ -168,35 +169,13 @@ fun ConsentScreen(
             SuccessButton(
                 text = stringResource(R.string.i_agree_and_sign),
                 onClick = {
-                    // Create a placeholder bitmap for the signature
-                    // In a real app, you'd capture the actual signature canvas
-                    val signatureBitmap = Bitmap.createBitmap(800, 200, Bitmap.Config.ARGB_8888)
-                    onAgree(signatureBitmap)
+                    val targetWidth = signatureSize.width.takeIf { it > 0 } ?: 800
+                    val targetHeight = signatureSize.height.takeIf { it > 0 } ?: 200
+                    onAgree(signatureState.toBitmap(targetWidth, targetHeight))
                 },
                 enabled = hasSignature,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-    }
-}
-
-@Composable
-private fun SignatureCanvas(
-    modifier: Modifier = Modifier,
-    strokeColor: Color,
-    strokeWidth: androidx.compose.ui.unit.Dp,
-    backgroundColor: Color,
-    onSignatureChanged: (Boolean) -> Unit,
-    key: Int
-) {
-    // Re-create canvas when key changes (for clearing)
-    androidx.compose.runtime.key(key) {
-        com.avalue.checkin.components.SignatureCanvas(
-            modifier = modifier,
-            strokeColor = strokeColor,
-            strokeWidth = strokeWidth,
-            backgroundColor = backgroundColor,
-            onSignatureChanged = onSignatureChanged
-        )
     }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.LocalDensity
@@ -44,11 +45,11 @@ fun SignatureCanvas(
     strokeColor: Color = Color.Black,
     strokeWidth: Dp = 4.dp,
     backgroundColor: Color = Color.White,
+    signatureState: SignatureState? = null,
     onSignatureChanged: (hasSignature: Boolean) -> Unit = {}
 ) {
-    val paths = remember { mutableStateListOf<PathData>() }
+    val state = signatureState ?: rememberSignatureState()
     var currentPath by remember { mutableStateOf<Path?>(null) }
-    var hasSignature by remember { mutableStateOf(false) }
     
     val density = LocalDensity.current
     val strokeWidthPx = with(density) { strokeWidth.toPx() }
@@ -68,22 +69,21 @@ fun SignatureCanvas(
                             currentPath = Path().apply {
                                 moveTo(event.x, event.y)
                             }
+                            if (!state.hasSignature) {
+                                state.markHasSignature()
+                                onSignatureChanged(true)
+                            }
                             true
                         }
                         MotionEvent.ACTION_MOVE -> {
                             currentPath?.lineTo(event.x, event.y)
                             // Force recomposition
                             currentPath = currentPath?.let { Path().apply { addPath(it) } }
-                            
-                            if (!hasSignature) {
-                                hasSignature = true
-                                onSignatureChanged(true)
-                            }
                             true
                         }
                         MotionEvent.ACTION_UP -> {
                             currentPath?.let { path ->
-                                paths.add(PathData(path, strokeColor, strokeWidthPx))
+                                state.addPath(PathData(path, strokeColor, strokeWidthPx))
                             }
                             currentPath = null
                             true
@@ -93,7 +93,7 @@ fun SignatureCanvas(
                 }
         ) {
             // Draw all completed paths
-            paths.forEach { pathData ->
+            state.paths.forEach { pathData ->
                 drawPath(
                     path = pathData.path,
                     color = pathData.color,
@@ -127,7 +127,7 @@ fun rememberSignatureState(): SignatureState {
 }
 
 class SignatureState {
-    private val paths = mutableStateListOf<PathData>()
+    val paths = mutableStateListOf<PathData>()
     var hasSignature by mutableStateOf(false)
         private set
     
@@ -138,6 +138,10 @@ class SignatureState {
     
     fun addPath(path: PathData) {
         paths.add(path)
+        hasSignature = true
+    }
+
+    fun markHasSignature() {
         hasSignature = true
     }
     
@@ -158,7 +162,7 @@ class SignatureState {
         }
         
         paths.forEach { pathData ->
-            paint.color = pathData.color.hashCode()
+            paint.color = pathData.color.toArgb()
             paint.strokeWidth = pathData.strokeWidth
             canvas.drawPath(pathData.path.asAndroidPath(), paint)
         }
