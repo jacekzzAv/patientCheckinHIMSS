@@ -16,7 +16,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -29,6 +33,7 @@ import com.avalue.checkin.components.PrimaryButton
 import com.avalue.checkin.ui.theme.Primary
 import com.avalue.checkin.ui.theme.PrimaryDark
 import com.avalue.checkin.ui.theme.PrimaryLight
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -37,11 +42,18 @@ import java.util.Locale
 fun WelcomeScreen(
     onStartCheckIn: () -> Unit
 ) {
-    val currentDate = remember {
-        SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault()).format(Date())
-    }
-    val currentTime = remember {
-        SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
+    var currentDate by remember { mutableStateOf("") }
+    var currentTime by remember { mutableStateOf("") }
+    val dateFormatter = remember { SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault()) }
+    val timeFormatter = remember { SimpleDateFormat("h:mm a", Locale.getDefault()) }
+    
+    LaunchedEffect(Unit) {
+        while (true) {
+            val now = Date()
+            currentDate = dateFormatter.format(now)
+            currentTime = timeFormatter.format(now)
+            delay(60_000)
+        }
     }
     
     Box(
