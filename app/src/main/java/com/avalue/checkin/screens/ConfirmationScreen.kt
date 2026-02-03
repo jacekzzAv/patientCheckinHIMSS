@@ -21,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -39,10 +41,11 @@ fun ConfirmationScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val patientInfo = state.patientInfo
-    
-    // Auto-return to welcome after 10 seconds
+    val timeoutSeconds = integerResource(R.integer.confirmation_timeout_seconds)
+
+    // Auto-return to welcome after configurable timeout
     LaunchedEffect(Unit) {
-        delay(10_000)
+        delay(timeoutSeconds * 1000L)
         onDone()
     }
     
@@ -147,7 +150,7 @@ fun ConfirmationScreen(
             
             // Auto-return notice
             Text(
-                text = "This screen will automatically return to the start",
+                text = stringResource(R.string.confirmation_auto_return),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White.copy(alpha = 0.7f)
             )
@@ -163,7 +166,7 @@ fun ConfirmationScreen(
         ) {
             androidx.compose.material3.TextButton(onClick = onDone) {
                 Text(
-                    text = "Tap to start new check-in",
+                    text = stringResource(R.string.confirmation_tap_new_checkin),
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.White.copy(alpha = 0.8f)
                 )

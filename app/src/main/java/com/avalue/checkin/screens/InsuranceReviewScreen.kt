@@ -71,7 +71,7 @@ fun InsuranceReviewScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Please verify your insurance card images",
+                text = stringResource(R.string.insurance_verify_subtitle),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
@@ -168,7 +168,7 @@ private fun CardImagePreview(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No image captured",
+                    text = stringResource(R.string.no_image_captured),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

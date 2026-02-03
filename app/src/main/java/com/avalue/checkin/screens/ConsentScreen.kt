@@ -110,7 +110,7 @@ fun ConsentScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Please sign below:",
+                    text = stringResource(R.string.consent_please_sign_below),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )

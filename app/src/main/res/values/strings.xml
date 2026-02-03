@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Patient Check-In</string>
-    
+
     <!-- Welcome Screen -->
     <string name="welcome_title">Welcome</string>
     <string name="welcome_subtitle">Touch to begin check-in</string>
     <string name="touch_to_checkin">Touch to Check In</string>
-    
+    <string name="welcome_tap_hint">Tap anywhere to begin</string>
+    <string name="logo_placeholder">LOGO</string>
+
     <!-- Face Capture Screen -->
     <string name="face_capture_title">Photo Verification</string>
     <string name="face_capture_instruction">Please position your face within the oval</string>
     <string name="capture_button">Capture</string>
+    <string name="capturing_text">Capturing…</string>
     <string name="back_button">Back</string>
-    
+
     <!-- Patient Verify Screen -->
     <string name="verify_title">Verify Your Information</string>
     <string name="verify_question">Is this information correct?</string>
@@ -21,38 +24,48 @@
     <string name="label_name">Name</string>
     <string name="label_dob">Date of Birth</string>
     <string name="label_appointment">Appointment</string>
-    
+
     <!-- Insurance Card Screens -->
     <string name="insurance_front_title">Insurance Card - Front</string>
     <string name="insurance_back_title">Insurance Card - Back</string>
     <string name="insurance_front_instruction">Position the FRONT of your insurance card within the frame</string>
     <string name="insurance_back_instruction">Now flip and capture the BACK of your card</string>
     <string name="skip_insurance">Skip Insurance</string>
-    
+    <string name="step_front">Front</string>
+    <string name="step_back">Back</string>
+
     <!-- Insurance Review Screen -->
     <string name="insurance_review_title">Review Insurance Card</string>
+    <string name="insurance_verify_subtitle">Please verify your insurance card images</string>
     <string name="looks_good">Looks Good</string>
     <string name="retake">Retake</string>
     <string name="front_label">Front</string>
     <string name="back_label">Back</string>
-    
+    <string name="no_image_captured">No image captured</string>
+
     <!-- Consent Screen -->
     <string name="consent_title">Consent &amp; Signature</string>
     <string name="consent_text">By signing below, I acknowledge that I have reviewed and agree to the terms of service and privacy policy. I consent to the collection and use of my health information as described in the Notice of Privacy Practices.\n\nI understand that my signature below authorizes the healthcare provider to bill my insurance and/or me for services rendered.\n\nI certify that the information I have provided is accurate and complete to the best of my knowledge.</string>
+    <string name="consent_please_sign_below">Please sign below:</string>
     <string name="clear_signature">Clear</string>
     <string name="i_agree_and_sign">I Agree &amp; Sign</string>
     <string name="please_sign">Please sign above to continue</string>
-    
+
     <!-- Confirmation Screen -->
     <string name="confirmation_title">You\'re Checked In!</string>
     <string name="confirmation_message">Please have a seat.\nYour provider will see you shortly.</string>
     <string name="done_button">Done</string>
-    
-    <!-- Demo Data -->
+    <string name="confirmation_auto_return">This screen will automatically return to the start</string>
+    <string name="confirmation_tap_new_checkin">Tap to start new check-in</string>
+
+    <!-- Demo Data (configurable for tradeshow) -->
     <string name="demo_patient_name">John Smith</string>
     <string name="demo_patient_dob">January 15, 1985</string>
     <string name="demo_appointment">Dr. Williams - 2:30 PM</string>
-    
+
+    <!-- Configurable Settings -->
+    <integer name="confirmation_timeout_seconds">10</integer>
+
     <!-- Permissions -->
     <string name="camera_permission_required">Camera permission is required for check-in</string>
     <string name="grant_permission">Grant Permission</string>
