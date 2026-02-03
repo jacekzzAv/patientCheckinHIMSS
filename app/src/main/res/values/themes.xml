@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.PatientCheckInKiosk" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Status bar and navigation bar for kiosk -->
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        
+        <!-- Keep screen on -->
+        <item name="android:keepScreenOn">true</item>
+    </style>
+</resources>

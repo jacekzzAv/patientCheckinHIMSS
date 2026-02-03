@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Brand Colors -->
+    <color name="primary">#1565C0</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="primary_light">#42A5F5</color>
+    
+    <!-- Secondary/Accent -->
+    <color name="secondary">#00897B</color>
+    <color name="secondary_dark">#00695C</color>
+    
+    <!-- Success/Confirm -->
+    <color name="success">#2E7D32</color>
+    <color name="success_light">#4CAF50</color>
+    
+    <!-- Error/Cancel -->
+    <color name="error">#C62828</color>
+    <color name="error_light">#EF5350</color>
+    
+    <!-- Neutrals -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    
+    <!-- Overlay Colors -->
+    <color name="overlay_dark">#99000000</color>
+    <color name="overlay_light">#4DFFFFFF</color>
+    <color name="guide_border">#FFFFFF</color>
+</resources>
