@@ -1,19 +1,21 @@
 package com.avalue.checkin.viewmodel
 
+import android.app.Application
 import android.graphics.Bitmap
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import com.avalue.checkin.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 data class PatientInfo(
-    val name: String = "John Smith",
-    val dateOfBirth: String = "January 15, 1985",
-    val appointment: String = "Dr. Williams - 2:30 PM"
+    val name: String,
+    val dateOfBirth: String,
+    val appointment: String
 )
 
 data class CheckInState(
-    val patientInfo: PatientInfo = PatientInfo(),
+    val patientInfo: PatientInfo,
     val facePhoto: Bitmap? = null,
     val insuranceFront: Bitmap? = null,
     val insuranceBack: Bitmap? = null,
@@ -21,9 +23,18 @@ data class CheckInState(
     val isComplete: Boolean = false
 )
 
-class CheckInViewModel : ViewModel() {
-    
-    private val _state = MutableStateFlow(CheckInState())
+class CheckInViewModel(application: Application) : AndroidViewModel(application) {
+
+    private fun getDefaultPatientInfo(): PatientInfo {
+        val context = getApplication<Application>()
+        return PatientInfo(
+            name = context.getString(R.string.demo_patient_name),
+            dateOfBirth = context.getString(R.string.demo_patient_dob),
+            appointment = context.getString(R.string.demo_appointment)
+        )
+    }
+
+    private val _state = MutableStateFlow(CheckInState(patientInfo = getDefaultPatientInfo()))
     val state: StateFlow<CheckInState> = _state.asStateFlow()
     
     fun setFacePhoto(bitmap: Bitmap) {
@@ -51,8 +62,8 @@ class CheckInViewModel : ViewModel() {
         _state.value.insuranceFront?.recycle()
         _state.value.insuranceBack?.recycle()
         _state.value.signature?.recycle()
-        
-        _state.value = CheckInState()
+
+        _state.value = CheckInState(patientInfo = getDefaultPatientInfo())
     }
     
     override fun onCleared() {

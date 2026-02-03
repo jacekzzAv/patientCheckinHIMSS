@@ -113,7 +113,7 @@ fun WelcomeScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "LOGO",
+                        text = stringResource(R.string.logo_placeholder),
                         style = MaterialTheme.typography.titleLarge,
                         color = Color.White
                     )
@@ -166,7 +166,7 @@ fun WelcomeScreen(
                 
                 // Pulsing hint
                 Text(
-                    text = "Tap anywhere to begin",
+                    text = stringResource(R.string.welcome_tap_hint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White.copy(alpha = 0.7f)
                 )

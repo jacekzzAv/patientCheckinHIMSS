@@ -132,7 +132,7 @@ fun FaceCaptureScreen(
                     .padding(vertical = 32.dp)
             ) {
                 PrimaryButton(
-                    text = if (isCapturing) "Capturing..." else stringResource(R.string.capture_button),
+                    text = if (isCapturing) stringResource(R.string.capturing_text) else stringResource(R.string.capture_button),
                     onClick = {
                         if (!isCapturing) {
                             isCapturing = true
